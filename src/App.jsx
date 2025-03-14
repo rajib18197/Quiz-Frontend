@@ -1,12 +1,28 @@
 import { BrowserRouter, Route, Routes } from "react-router";
+import HomePage from "./pages/Home";
+import QuizPage from "./pages/Quiz";
+import ResultPage from "./pages/Result";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={""} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route index path="/" element={<HomePage />} />
+          <Route path="/quiz/:id" element={<QuizPage />} />
+          <Route path="/quiz-result/:id" element={<ResultPage />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
